@@ -1,0 +1,50 @@
+{
+  "name": "cinetpay/cinetpayphpsdk",
+  "description": "easily integrate cinetpay's gateway on your php web site.",
+  "version": "1.0.1",
+  "type": "library",
+  "keywords": [
+    "cinetpay",
+    "integration",
+    "mobile",
+    "money"
+  ],
+  "time": "2016-10-10",
+  "homepage": "https://github.com/cinetpay/cinetpay-php-sdk",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Daniel Dindji",
+      "email": "daniel.dindji@cinetpay.com",
+      "role": "Developer"
+    },
+    {
+      "name": "Fawaz Adisa",
+      "email": "adisaf@programmer.net",
+      "role": "Developer"
+    }
+  ],
+  "support": {
+    "email": "support@cinetpay.com"
+  },
+  "require": {
+    "php": "^5.5 || ^7.0",
+    "ext-mbstring": "*"
+  },
+  "autoload": {
+    "files": [
+      "cinetpay_loader.php"
+    ],
+    "exclude-from-classmap": [
+      "/Tests/",
+      "/test/",
+      "/tests/"
+    ]
+  },
+  "repositories": [
+    {
+      "type": "vcs",
+      "url": "https://github.com/cinetpay/cinetpay-php-sdk"
+    }
+  ]
+}
