@@ -33,7 +33,7 @@
   },
   "autoload": {
     "files": [
-      "cinetpay_loader.php"
+      "src/cinetpay.php"
     ],
     "exclude-from-classmap": [
       "/Tests/",
