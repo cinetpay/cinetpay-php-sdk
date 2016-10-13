@@ -4,7 +4,7 @@
  *
  * LICENSE
  *
- * This source file is subject to the new BSD license that is bundled
+ * This source file is subject to the MIT License that is bundled
  * with this package in the file LICENSE.
  * If you did not receive a copy of the license and are unable to
  * obtain it through the world-wide-web, please send an email
@@ -12,11 +12,12 @@
  *
  * @category   CinetPay
  * @package    cinetpay
- * @version    1.0.6
+ * @version    1.5.0
+ * @license    MIT
  */
 
 /**
- * Class CinetPay using file_get_content functions
+ * Class CinetPay
  * @category   CinetPay
  * @package    cinetpay
  * @copyright  Copyright (c) 20015-2016 CinetPay Inc. (https://www.cinetpay.com)
@@ -370,30 +371,71 @@ class CinetPay
         return $dataArray;
     }
 
-    private function callCinetpayWsMethod($params, $url)
+    private function callCinetpayWsMethod($params, $url, $method = 'POST')
     {
-        try {
-            // Build Http query using params
-            $query = http_build_query($params);
-            // Create Http context details
-            $options = array(
-                'http' => array(
-                    'header' => "Content-Type: application/x-www-form-urlencoded\r\n" .
-                        "Content-Length: " . strlen($query) . "\r\n" .
-                        "User-Agent:MyAgent/1.0\r\n",
-                    'method' => "POST",
-                    'content' => $query,
-                ),
-            );
-            // Create context resource for our request
-            $context = stream_context_create($options);
-            // Read page rendered as result of your POST request
-            $result = file_get_contents(
-                $url, // page url
-                false, $context);
-            return trim($result);
-        } catch (Exception $e) {
-            throw new Exception($e);
+        if (ini_get('allow_url_fopen')) {
+            try {
+                // Build Http query using params
+                $query = http_build_query($params);
+                // Create Http context details
+                $options = array(
+                    'http' => array(
+                        'header' => "Content-Type: application/x-www-form-urlencoded\r\n" .
+                            "Content-Length: " . strlen($query) . "\r\n" .
+                            "User-Agent:MyAgent/1.0\r\n",
+                        'method' => "POST",
+                        'content' => $query,
+                    ),
+                );
+                // Create context resource for our request
+                $context = stream_context_create($options);
+                // Read page rendered as result of your POST request
+                $result = file_get_contents(
+                    $url, // page url
+                    false, $context);
+                return trim($result);
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+        } else {
+            try {
+                $curl = curl_init();
+
+                settype($params, 'array');
+
+                $data = (count($params) > 0) ? $params : false;
+
+                $httpHeader = array();
+
+                switch ($method) {
+                    case 'POST':
+                        curl_setopt($curl, CURLOPT_POST, 1);
+                        if ($data) {
+                            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
+                            $httpHeader[] = 'Content-Length: ' . strlen($data);
+                        }
+                        break;
+                    case 'GET':
+                        break;
+                    case 'PUT':
+                        curl_setopt($curl, CURLOPT_PUT, 1);
+                        break;
+                    default:
+                }
+                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
+                curl_setopt($curl, CURLOPT_URL, $url);
+                curl_setopt($curl, CURLOPT_HTTPHEADER, $httpHeader);
+                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
+
+                $result = curl_exec($curl);
+                print_r(curl_error($curl));
+                curl_close($curl);
+
+                return $result;
+
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
         }
     }
 
@@ -582,12 +624,48 @@ class CinetPay
     }
 
     /**
+     * @return array
+     */
+    public function getPayDataArray()
+    {
+        $dataArray = array(
+            'apikey' => $this->_cfg_apikey,
+            'cpm_site_id' => $this->_cfg_cpm_site_id,
+            'cpm_currency' => $this->_cfg_cpm_currency,
+            'cpm_payment_config' => $this->_cfg_cpm_payment_config,
+            'cpm_page_action' => $this->_cfg_cpm_page_action,
+            'cpm_version' => $this->_cfg_cpm_version,
+            'cpm_language' => $this->_cfg_cpm_language,
+            'cpm_trans_date' => $this->_cfg_cpm_trans_date,
+            'cpm_trans_id' => $this->_cfg_cpm_trans_id,
+            'cpm_designation' => $this->_cfg_cpm_designation,
+            'cpm_amount' => $this->_cfg_cpm_amount,
+            'cpm_custom' => $this->_cfg_cpm_custom,
+            'notify_url' => $this->_cfg_notify_url,
+            'return_url' => $this->_cfg_return_url,
+            'cancel_url' => $this->_cfg_cancel_url
+        );
+        if (!empty($this->_cfg_cpm_custom)) $dataArray['cpm_custom'] = $this->_cfg_cpm_custom;
+        return $dataArray;
+    }
+
+    /**
      * @param $id
      * @return $this
      */
     public function setTransId($id)
     {
         $this->_cfg_cpm_trans_id = $id;
+        return $this;
+    }
+
+    /**
+     * @param string $cfg_cpm_version
+     * @return $this
+     */
+    public function setVersion(string $cfg_cpm_version)
+    {
+        $this->_cfg_cpm_version = $cfg_cpm_version;
         return $this;
     }
 
@@ -666,6 +744,11 @@ class CinetPay
         throw new Exception("Method [setTransDate] need a good Date");
     }
 
+    /**
+     * @param $date
+     * @param string $format
+     * @return bool
+     */
     private function IsDate($date, $format = 'Y-m-d H:i:s')
     {
         $version = explode('.', phpversion());
@@ -675,28 +758,5 @@ class CinetPay
             $d = new DateTime(date($format, strtotime($date)));
         }
         return $d && $d->format($format) == $date;
-    }
-
-    public function getPayDataArray()
-    {
-        $dataArray = array(
-            'apikey' => $this->_cfg_apikey,
-            'cpm_site_id' => $this->_cfg_cpm_site_id,
-            'cpm_currency' => $this->_cfg_cpm_currency,
-            'cpm_payment_config' => $this->_cfg_cpm_payment_config,
-            'cpm_page_action' => $this->_cfg_cpm_page_action,
-            'cpm_version' => $this->_cfg_cpm_version,
-            'cpm_language' => $this->_cfg_cpm_language,
-            'cpm_trans_date' => $this->_cfg_cpm_trans_date,
-            'cpm_trans_id' => $this->_cfg_cpm_trans_id,
-            'cpm_designation' => $this->_cfg_cpm_designation,
-            'cpm_amount' => $this->_cfg_cpm_amount,
-            'cpm_custom' => $this->_cfg_cpm_custom,
-            'notify_url' => $this->_cfg_notify_url,
-            'return_url' => $this->_cfg_return_url,
-            'cancel_url' => $this->_cfg_cancel_url
-        );
-        if (!empty($this->_cfg_cpm_custom)) $dataArray['cpm_custom'] = $this->_cfg_cpm_custom;
-        return $dataArray;
     }
 }
