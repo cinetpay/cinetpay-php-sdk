@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../cinetpay_loader.php';
+require_once __DIR__ . '/../src/cinetpay.php';
 
 try {
     // generate transaction identifiant, you can also use Cinetpay::generateTransId()
@@ -32,8 +32,13 @@ try {
     //put your cinetpay site id here
     $site_id = "485179";
 
-    //platform ,  use PROD if you created your account in www.cinetpay.com  or TEST if you created your account in www.sandbox.cinetpay.com
+    //platform ,  use PROD if you created your account in www.cinetpay.com
+    //  or TEST if you created your account in www.sandbox.cinetpay.com
     $plateform = "TEST";
+
+    //version ,  use V1 if you created your account in www.cinetpay.com
+    // or V2 if you created your account in www.sandbox.cinetpay.com
+    $version = "V2";
 
     // name of your cinetpay form
     $formName = "nom_formulaire_exemple";
@@ -54,6 +59,7 @@ try {
         ->setDesignation($description_du_paiement)
         ->setTransDate($date_transaction)
         ->setAmount($montant_a_payer)
+        ->setVersion($version)
         ->setCustom($identifiant_du_payeur)// optional
         ->setNotifyUrl($notify_url)// optional
         ->setReturnUrl($return_url)// optional

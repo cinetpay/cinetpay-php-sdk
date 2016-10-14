@@ -4,7 +4,6 @@ class Commande
 {
     protected $_montant;
     protected $_transId;
-    protected $_abonnement;
     protected $_methode;
     protected $_payId;
     protected $_buyerName;
@@ -62,22 +61,6 @@ class Commande
     public function setTransId($transId)
     {
         $this->_transId = $transId;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getAbonnement()
-    {
-        return $this->_abonnement;
-    }
-
-    /**
-     * @param mixed $abonnement
-     */
-    public function setAbonnement($abonnement)
-    {
-        $this->_abonnement = $abonnement;
     }
 
     /**

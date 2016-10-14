@@ -4,7 +4,7 @@
 //check if there is a cinetpay post value
 if (isset($_POST['cpm_trans_id'])) {
     // call required lib
-    require_once __DIR__ . '/../../cinetpay_loader.php';
+    require_once __DIR__ . '/../../src/cinetpay.php';
 
     // sample class for simulate payment validation
     require_once __DIR__ . '/commande.php';

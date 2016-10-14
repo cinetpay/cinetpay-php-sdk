@@ -21,7 +21,7 @@ Exemple :
 <?php
 if (isset($_POST['cpm_trans_id'])) {
     // SDK PHP de CinetPay 
-    require_once __DIR__ . '/cinetpay_loader.php';
+    require_once __DIR__ . '/cinetpay.php';
     require_once __DIR__ . '/commande.php';
 
     //La classe commande correspond à votre colonne qui gère les transactions dans votre base de données
@@ -110,7 +110,7 @@ Exemple de page de retour :
 <?php
 if (isset($_POST['cpm_trans_id'])) {
     // SDK PHP de CinetPay 
-    require_once __DIR__ . '/cinetpay_loader.php';
+    require_once __DIR__ . '/cinetpay.php';
     require_once __DIR__ . '/commande.php';
 
     //La classe commande correspond à votre colonne qui gère les transactions dans votre base de données
@@ -189,6 +189,7 @@ Le formulaire de paiement CinetPay est constitué de :
     designation :  La designation de la transaction
     transDate : La date du debut de la transaction
     amount : Le montant de la transaction
+    version : La version à utiliser
     custom : La valeur qui vou permettra d'identifier de façon unique la personne effectuant la transaction dans votre système
     notifyUrl : Url silencieuse que CinetPay appel après chaque transaction, peut être appelé plusieurs fois
     returnUrl : Après une transaction, c'est le lien où est redirigé le client
@@ -200,7 +201,7 @@ Exemple :
 ```php
 <?php
         // Inclusion des classes necessaires
-        require_once __DIR__ . '/cinetpay_loader.php';
+        require_once __DIR__ . '/cinetpay.php';
         require_once __DIR__ . '/commande.php';
         $commande = new Commande();
         try {
@@ -220,6 +221,9 @@ Exemple :
             
             //platform ,  utiliser PROD si vous avez créé votre compte sur www.cinetpay.com  ou TEST si vous avez créé votre compte sur www.sandbox.cinetpay.com
             $plateform = "TEST";
+            
+            //la version ,  utiliser V1 si vous avez créé votre compte sur www.cinetpay.com  ou V2 si vous avez créé votre compte sur www.sandbox.cinetpay.com
+            $plateform = "V2";
     
             // nom du formulaire CinetPay
             $formName = "goCinetPay";
@@ -235,8 +239,7 @@ Exemple :
             // Enregistrement de la commande dans notre BD
             $commande->setTransId($id_transaction);
             $commande->setMontant($montant_a_payer);
-            $commande->setAbonnement($abonnement);
-            $commande->enregistrer();
+            $commande->create();
             
             // Paramétrage du panier CinetPay et affichage du formulaire
             $CinetPay = new CinetPay($site_id, $apiKey, $plateform);
@@ -244,6 +247,7 @@ Exemple :
                     ->setDesignation($description_du_paiement)
                     ->setTransDate($date_transaction)
                     ->setAmount($montant_a_payer)
+                    ->setVersion($version)
                     ->setCustom($identifiant_du_payeur)// optional
                     ->setNotifyUrl($notify_url)// optional
                     ->setReturnUrl($return_url)// optional
