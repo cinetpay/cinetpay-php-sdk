@@ -14,7 +14,7 @@ A chaque paiement, CinetPay vous notifie via un lien de notification.
 NB :
 
     -C'est un lien silencieux
-    -C'est le seul lien qui est abilité à mettre à jour les informations de la bd relatif à la transaction
+    -C'est le seul lien qui est abilité à mettre à jour les informations de la base de donnée relatif à la transaction
 
 Exemple :
 ```php 
@@ -32,7 +32,8 @@ if (isset($_POST['cpm_trans_id'])) {
         $apiKey = _VOTRE_APIKEY_;
         $site_id = _VOTRE_SITEID_;
         $plateform = "TEST"; // Valorisé à PROD si vous êtes en production
-        $CinetPay = new CinetPay($site_id, $apiKey, $plateform);
+        $version = "V2"; // Valorisé à V1 si vous voulez utiliser la version 1 de l'api
+        $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
         // Reprise exacte des bonnes données chez CinetPay
         $CinetPay->setTransId($id_transaction)->getPayStatus();
         $cpm_site_id = $CinetPay->_cpm_site_id;
@@ -103,7 +104,7 @@ if (isset($_POST['cpm_trans_id'])) {
 ```
 ###Page de Retour
 
-La page de retour est la page où est redirigé le client après une transaction sur CinetPay (quelque soit le status de la transaction). Aucune mise à jour de la base de données ne doit être traiter si cette page
+La page de retour est la page où est redirigée le client après une transaction sur CinetPay (quelque soit le statut de la transaction). Aucune mise à jour de la base de données ne doit être traité sur cette page
 
 Exemple de page de retour :
 ```php
@@ -121,7 +122,8 @@ if (isset($_POST['cpm_trans_id'])) {
         $apiKey = _VOTRE_APIKEY_;
         $site_id = _VOTRE_SITEID_;
         $plateform = "TEST"; // Valorisé à PROD si vous êtes en production
-        $CinetPay = new CinetPay($site_id, $apiKey, $plateform);
+        $version = "V2"; // Valorisé à V1 si vous voulez utiliser la version 1 de l'api
+        $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
         // Reprise exacte des bonnes données chez CinetPay
         $CinetPay->setTransId($id_transaction)->getPayStatus();
         $cpm_site_id = $CinetPay->_cpm_site_id;
@@ -222,8 +224,8 @@ Exemple :
             //platform ,  utiliser PROD si vous avez créé votre compte sur www.cinetpay.com  ou TEST si vous avez créé votre compte sur www.sandbox.cinetpay.com
             $plateform = "TEST";
             
-            //la version ,  utiliser V1 si vous avez créé votre compte sur www.cinetpay.com  ou V2 si vous avez créé votre compte sur www.sandbox.cinetpay.com
-            $plateform = "V2";
+            //la version ,  utilisé V1 si vous voulez utiliser la version 1 de l'api
+            $version = "V2";
     
             // nom du formulaire CinetPay
             $formName = "goCinetPay";
@@ -242,12 +244,11 @@ Exemple :
             $commande->create();
             
             // Paramétrage du panier CinetPay et affichage du formulaire
-            $CinetPay = new CinetPay($site_id, $apiKey, $plateform);
+            $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
             $CinetPay->setTransId($id_transaction)
                     ->setDesignation($description_du_paiement)
                     ->setTransDate($date_transaction)
                     ->setAmount($montant_a_payer)
-                    ->setVersion($version)
                     ->setCustom($identifiant_du_payeur)// optional
                     ->setNotifyUrl($notify_url)// optional
                     ->setReturnUrl($return_url)// optional
@@ -259,10 +260,10 @@ Exemple :
         }
 ?>
 ```
-Votre Api Key et Site ID
+#Votre Api Key et Site ID
 
 Ces informations sont disponibles dans votre BackOffice CinetPay.
 
-Exemple Intégration
+#Exemple Intégration
 
 Vous trouverez un exemple d'intégration complet dans le dossier exemple/

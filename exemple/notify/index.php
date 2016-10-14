@@ -15,10 +15,14 @@ if (isset($_POST['cpm_trans_id'])) {
         $id_transaction = $_POST['cpm_trans_id'];
         $apiKey = _VOTRE_APIKEY_;
         $site_id = _VOTRE_SITEID_;
-        //platform ,  use PROD if you created your account in www.cinetpay.com  or TEST if you created your account in www.sandbox.cinetpay.com or
+        //platform ,  use PROD if you created your account in www.cinetpay.com
+        //  or TEST if you created your account in www.sandbox.cinetpay.com
         $plateform = "TEST";
 
-        $CinetPay = new CinetPay($site_id, $apiKey, $plateform);
+        //version ,  use V1 if you want to use api v1
+        $version = "V2";
+
+        $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
         // get correct values for this transactions
         $CinetPay->setTransId($id_transaction)->getPayStatus();
         $cpm_site_id = $CinetPay->_cpm_site_id;

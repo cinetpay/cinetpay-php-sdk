@@ -12,7 +12,7 @@
  *
  * @category   CinetPay
  * @package    cinetpay
- * @version    1.5.0
+ * @version    1.6.0
  * @license    MIT
  */
 
@@ -29,10 +29,6 @@ class CinetPay
     const URI_WEBSITE_DEV = 'www.sandbox.cinetpay.com';
     const URI_CASH_DESK_PROD = 'secure.cinetpay.com';
     const URI_CASH_DESK_DEV = 'secure.sandbox.cinetpay.com';
-    const URI_GET_SIGNATURE_PROD = 'api.cinetpay.com/v1/?method=getSignatureByPost';
-    const URI_GET_SIGNATURE_DEV = 'api.sandbox.cinetpay.com/v2/?method=getSignatureByPost';
-    const URI_CHECK_PAY_STATUS_PROD = 'api.cinetpay.com/v1/?method=checkPayStatus';
-    const URI_CHECK_PAY_STATUS_DEV = 'api.sandbox.cinetpay.com/v2/?method=checkPayStatus';
     /**
      * An indentifier
      * @var string
@@ -47,7 +43,7 @@ class CinetPay
      * An indentifier
      * @var string
      */
-    public $_cfg_cpm_version = "V2";
+    public $_cfg_cpm_version = null;
     /**
      * An indentifier
      * @var string
@@ -165,14 +161,19 @@ class CinetPay
      * @var string
      */
     protected $_webSiteUri = null;
+    private $_URI_GET_SIGNATURE_PROD = null;
+    private $_URI_GET_SIGNATURE_DEV = null;
+    private $_URI_CHECK_PAY_STATUS_PROD = null;
+    private $_URI_CHECK_PAY_STATUS_DEV = null;
 
     /**
      * CinetPay constructor.
      * @param $site_id
      * @param $apikey
      * @param string $mode
+     * @param string $version
      */
-    public function __construct($site_id, $apikey, $mode = "PROD")
+    public function __construct($site_id, $apikey, $mode = "PROD", $version = 'v2')
     {
 
         if ($mode == "PROD") {
@@ -182,7 +183,14 @@ class CinetPay
             $this->_use_sandbox = true;
         }
 
+        $this->_URI_GET_SIGNATURE_PROD = sprintf('api.cinetpay.com/%s/?method=getSignatureByPost', strtolower($version));
+        $this->_URI_GET_SIGNATURE_DEV = sprintf('api.sandbox.cinetpay.com/%s/?method=getSignatureByPost', strtolower($version));
+        $this->_URI_CHECK_PAY_STATUS_PROD = sprintf('api.cinetpay.com/%s/?method=checkPayStatus', strtolower($version));
+        $this->_URI_CHECK_PAY_STATUS_DEV = sprintf('api.sandbox.cinetpay.com/%s/?method=checkPayStatus', strtolower($version));
+
+
         $this->_cfg_cpm_site_id = $site_id;
+        $this->_cfg_cpm_version = strtoupper($version);
         $this->_cfg_apikey = $apikey;
         $htpp_prefixe = ($this->_use_ssl) ? 'https://' : 'http://';
         $this->_cashDeskUri = $htpp_prefixe . $this->getCashDeskHost();
@@ -208,9 +216,9 @@ class CinetPay
     private function getSignatureHost()
     {
         if ($this->_use_sandbox)
-            return self::URI_GET_SIGNATURE_DEV;
+            return $this->_URI_GET_SIGNATURE_DEV;
         else
-            return self::URI_GET_SIGNATURE_PROD;
+            return $this->_URI_GET_SIGNATURE_PROD;
     }
 
     /**
@@ -219,9 +227,9 @@ class CinetPay
     private function getCheckPayStatusHost()
     {
         if ($this->_use_sandbox)
-            return self::URI_CHECK_PAY_STATUS_DEV;
+            return $this->_URI_CHECK_PAY_STATUS_DEV;
         else
-            return self::URI_CHECK_PAY_STATUS_PROD;
+            return $this->_URI_CHECK_PAY_STATUS_PROD;
     }
 
     private function getWebSiteHost()

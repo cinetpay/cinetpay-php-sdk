@@ -2,7 +2,7 @@
 require_once __DIR__ . '/../src/cinetpay.php';
 
 try {
-    // generate transaction identifiant, you can also use Cinetpay::generateTransId()
+    // generate transaction id, you can also use Cinetpay::generateTransId()
     $id_transaction = date("YmdHis");
 
     // Payment description
@@ -36,8 +36,7 @@ try {
     //  or TEST if you created your account in www.sandbox.cinetpay.com
     $plateform = "TEST";
 
-    //version ,  use V1 if you created your account in www.cinetpay.com
-    // or V2 if you created your account in www.sandbox.cinetpay.com
+    //version ,  use V1 if you want to use api v1
     $version = "V2";
 
     // name of your cinetpay form
@@ -54,12 +53,11 @@ try {
 
     // create html form for your basket
     // you must save this information into your db before write this
-    $CinetPay = new CinetPay($site_id, $apiKey, $plateform);
+    $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
     $CinetPay->setTransId($id_transaction)
         ->setDesignation($description_du_paiement)
         ->setTransDate($date_transaction)
         ->setAmount($montant_a_payer)
-        ->setVersion($version)
         ->setCustom($identifiant_du_payeur)// optional
         ->setNotifyUrl($notify_url)// optional
         ->setReturnUrl($return_url)// optional
