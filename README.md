@@ -249,6 +249,7 @@ Exemple :
                     ->setDesignation($description_du_paiement)
                     ->setTransDate($date_transaction)
                     ->setAmount($montant_a_payer)
+                    ->setDebug(false) // Valorisé à true, si vous voulez activer le mode debug sur cinetpay afin d'afficher toutes les variables envoyées chez CinetPay
                     ->setCustom($identifiant_du_payeur)// optional
                     ->setNotifyUrl($notify_url)// optional
                     ->setReturnUrl($return_url)// optional

@@ -39,6 +39,7 @@ try {
     //version ,  use V1 if you want to use api v1
     $version = "V2";
 
+    //$CinetPay->setDebug(true);
     // name of your cinetpay form
     $formName = "nom_formulaire_exemple";
 
@@ -60,6 +61,7 @@ try {
         ->setAmount($montant_a_payer)
         ->setCustom($identifiant_du_payeur)// optional
         ->setNotifyUrl($notify_url)// optional
+        ->setDebug(false)// put true, if you want to activate debug mode to see all informations you sent to CinetPay
         ->setReturnUrl($return_url)// optional
         ->setCancelUrl($cancel_url)// optional
         ->displayPayButton($formName, $btnType, $btnWidth, $btnHeight);

@@ -12,7 +12,7 @@
  *
  * @category   CinetPay
  * @package    cinetpay
- * @version    1.6.0
+ * @version    1.6.1
  * @license    MIT
  */
 
@@ -161,6 +161,11 @@ class CinetPay
      * @var string
      */
     protected $_webSiteUri = null;
+    /**
+     * @var bool
+     */
+    private $_debug = false;
+
     private $_URI_GET_SIGNATURE_PROD = null;
     private $_URI_GET_SIGNATURE_DEV = null;
     private $_URI_CHECK_PAY_STATUS_PROD = null;
@@ -329,6 +334,8 @@ class CinetPay
             $form .= "<input type='hidden' name='return_url' value='" . $this->_cfg_return_url . "'>";
         if (!empty($this->_cfg_cancel_url))
             $form .= "<input type='hidden' name='cancel_url' value='" . $this->_cfg_cancel_url . "'>";
+        if ($this->_debug == true)
+            $form .= "<input type='hidden' name='debug' value='1'>";
 
         $form .= $this->getOnlyPayButtonToSubmit($formName, $btnType, $btnWidth, $btnHeight);
 
@@ -734,6 +741,16 @@ class CinetPay
     public function setCustom($custom)
     {
         $this->_cfg_cpm_custom = $custom;
+        return $this;
+    }
+
+    /**
+     * @param string $debug
+     * @return $this
+     */
+    public function setDebug($debug)
+    {
+        $this->_debug = $debug;
         return $this;
     }
 
