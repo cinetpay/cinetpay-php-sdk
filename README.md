@@ -235,8 +235,7 @@ Exemple :
             $cancel_url = '';
             // Configuration du bouton
             $btnType = 2;//1-5
-            $btnWidth = "120px";
-            $btnHeight = "";
+            $btnSize = 'large'; // 'small' pour reduire la taille du bouton, 'large' pour une taille moyenne ou 'larger' pour  une taille plus grande 
     
             // Enregistrement de la commande dans notre BD
             $commande->setTransId($id_transaction);
@@ -254,7 +253,7 @@ Exemple :
                     ->setNotifyUrl($notify_url)// optional
                     ->setReturnUrl($return_url)// optional
                     ->setCancelUrl($cancel_url)// optional
-                    ->displayPayButton($formName, $btnType, $btnWidth, $btnHeight);
+                    ->displayPayButton($formName, $btnType, $btnSize);
         } catch (Exception $e) {
             // Une erreur est survenue
             echo $e->getMessage();

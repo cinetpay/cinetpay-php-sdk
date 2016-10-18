@@ -30,77 +30,77 @@ class CinetPay
     const URI_CASH_DESK_PROD = 'secure.cinetpay.com';
     const URI_CASH_DESK_DEV = 'secure.sandbox.cinetpay.com';
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_page_action = "PAYMENT";
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_payment_config = "SINGLE";
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_version = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_language = "fr";
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_currency = "CFA";
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_trans_date = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_trans_id = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_designation = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_custom = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_amount = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cpm_site_id = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_notify_url = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_return_url = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cfg_cancel_url = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     public $_cashDeskUri = null;
@@ -142,22 +142,22 @@ class CinetPay
      */
     public $_use_sandbox = false;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     protected $_cfg_apikey = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     protected $_signatureUri = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     protected $_checkPayStatusUri = null;
     /**
-     * An indentifier
+     * An identifier
      * @var string
      */
     protected $_webSiteUri = null;
@@ -192,8 +192,8 @@ class CinetPay
         $this->_URI_GET_SIGNATURE_DEV = sprintf('api.sandbox.cinetpay.com/%s/?method=getSignatureByPost', strtolower($version));
         $this->_URI_CHECK_PAY_STATUS_PROD = sprintf('api.cinetpay.com/%s/?method=checkPayStatus', strtolower($version));
         $this->_URI_CHECK_PAY_STATUS_DEV = sprintf('api.sandbox.cinetpay.com/%s/?method=checkPayStatus', strtolower($version));
-
-
+        $style = '.cinetpay-button { white-space: nowrap; }.cinetpay-button .field-error {  border: 1px solid #FF0000; }.cinetpay-button .hide { display: none; }.cinetpay-button .error-box { background: #FFFFFF; border: 1px solid #DADADA; border-radius: 5px; padding: 8px; display: inline-block; }.cinetpay-button button { white-space: nowrap; overflow: hidden; border-radius: 13px; font-family: "Arial", bold, italic; font-weight: bold; font-style: italic; border: 1px solid #2ECC71; color: #000000; background: #2ECC71; position: relative; text-shadow: 0 1px 0 rgba(255,255,255,.5); cursor: pointer; z-index: 0; }.cinetpay-button button:before { content: " "; position: absolute; width: 100%; height: 100%; border-radius: 11px; top: 0; left: 0; background: #2ECC71; background: -webkit-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: -moz-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: -ms-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); z-index: -2; }.cinetpay-button button:after { content: " "; position: absolute; width: 98%; height: 60%; border-radius: 40px 40px 38px 38px; top: 0; left: 0; background: -webkit-linear-gradient(top, #fefefe 0%, #28B463 100%); background: -moz-linear-gradient(top, #fefefe 0%, #28B463 100%); background: -ms-linear-gradient(top, #fefefe 0%, #28B463 100%); background: linear-gradient(top, #fefefe 0%, #28B463 100%); z-index: -1; -webkit-transform: translateX(1%);-moz-transform: translateX(1%); -ms-transform: translateX(1%); transform: translateX(1%); }.cinetpay-button button.small { padding: 3px 15px; font-size: 12px; }.cinetpay-button button.large { padding: 4px 19px; font-size: 14px; }.cinetpay-button button.larger { padding: 5px 30px; font-size: 20px; }';
+        print($style);
         $this->_cfg_cpm_site_id = $site_id;
         $this->_cfg_cpm_version = strtoupper($version);
         $this->_cfg_apikey = $apikey;
@@ -263,24 +263,22 @@ class CinetPay
      * print cinetpay pay form button
      * @param $formName
      * @param int $btnType
-     * @param string $btnWidth
-     * @param string $btnHeight
+     * @param string $size
      */
-    public function displayPayButton($formName, $btnType = 1, $btnWidth = "120px", $btnHeight = "")
+    public function displayPayButton($formName, $btnType = 1, $size = "large")
     {
-        print $this->getPayButton($formName, $btnType, $btnWidth, $btnHeight);
+        print $this->getPayButton($formName, $btnType, $size);
     }
 
     /**
      * get the cinetpay pay form
      * @param $formName
      * @param int $btnType
-     * @param string $btnWidth
-     * @param string $btnHeight
+     * @param string $size
      * @return string
      * @throws Exception
      */
-    public function getPayButton($formName, $btnType = 1, $btnWidth = "120px", $btnHeight = "")
+    public function getPayButton($formName, $btnType = 1, $size = "large")
     {
         $this->getSignature();
         if (empty($this->_cfg_apikey))
@@ -312,7 +310,7 @@ class CinetPay
         if (empty($formName))
             throw new Exception("Erreur: Nom du formulaire non definie");
 
-        $form = "<form id='" . $formName . "' name='" . $formName . "' action='" . $this->_cashDeskUri . "' method='post'>";
+        $form = "<form id='" . $formName . "' name='" . $formName . "' action='" . $this->_cashDeskUri . "' class='cinetpay-button' method='post'>";
         $form .= "<input type='hidden' name='apikey' value='" . $this->_cfg_apikey . "'>";
         $form .= "<input type='hidden' name='cpm_site_id' value='" . $this->_cfg_cpm_site_id . "'>";
         $form .= "<input type='hidden' name='cpm_currency' value='" . $this->_cfg_cpm_currency . "'>";
@@ -337,7 +335,7 @@ class CinetPay
         if ($this->_debug == true)
             $form .= "<input type='hidden' name='debug' value='1'>";
 
-        $form .= $this->getOnlyPayButtonToSubmit($formName, $btnType, $btnWidth, $btnHeight);
+        $form .= $this->getOnlyPayButtonToSubmit($formName, $btnType, $size);
 
         return $form;
     }
@@ -458,29 +456,23 @@ class CinetPay
      * get only button of cinetpay pay form
      * @param $formName
      * @param int $btnType
-     * @param string $btnWidth
-     * @param string $btnHeight
+     * @param $size
      * @return string
      */
-    public function getOnlyPayButtonToSubmit($formName, $btnType = 1, $btnWidth = "120px", $btnHeight = "")
+    public function getOnlyPayButtonToSubmit($formName, $btnType = 1, $size)
     {
-        $w = (!empty($btnWidth)) ? "width=$btnWidth" : "";
-        $h = (!empty($btnHeight)) ? "height=$btnHeight" : "";
-        $btnType = (int)$btnType;
+        $size = ($size == 'small') ? 'small' : (($size == 'larger') ? 'larger' : 'large');
 
         if (!empty($formName) && $btnType == 1)
-            $btn = "<input $w $h src='" . $this->_webSiteUri . "/btn/fr_FR/acheter.png' onclick='javascript:document.forms['" . $formName . "'].submit()' title=\"Effectuer des paiement avec CinetPay - C'est rapide, gratuit et s&eacute;curis&eacute;!\" name='submit' type='image' />";
+            $btn = "<button class='cinetpay-button " . $size . "' onclick='javascript:document.forms['" . $formName . "'].submit()'> Acheter </button>";
         elseif (!empty($formName) && $btnType == 2)
-            $btn = "<input $w $h src='" . $this->_webSiteUri . "/btn/fr_FR/payer.png' onclick='javascript:document.forms['" . $formName . "'].submit()' title=\"Effectuer des paiement avec CinetPay - C'est rapide, gratuit et s&eacute;curis&eacute;!\" name='submit' type='image' />";
+            $btn = "<button class='cinetpay-button " . $size . "' onclick='javascript:document.forms['" . $formName . "'].submit()'> Payer </button>";
         elseif (!empty($formName) && $btnType == 3)
-            $btn = "<input $w $h src='" . $this->_webSiteUri . "/btn/fr_FR/faire-don.png' onclick='javascript:document.forms['" . $formName . "'].submit()' title=\"Effectuer des paiement avec CinetPay - C'est rapide, gratuit et s&eacute;curis&eacute;!\" name='submit' type='image' />";
+            $btn = "<button class='cinetpay-button " . $size . "' onclick='javascript:document.forms['" . $formName . "'].submit()'> Faire un don </button>";
         elseif (!empty($formName) && $btnType == 4)
-            $btn = "<input $w $h src='" . $this->_webSiteUri . "/btn/fr_FR/faire-un-don.png' onclick='javascript:document.forms['" . $formName . "'].submit()' title=\"Effectuer des paiement avec CinetPay - C'est rapide, gratuit et s&eacute;curis&eacute;!\" name='submit' type='image' />";
-        elseif (!empty($formName) && $btnType == 5)
-            $btn = "<input $w $h src='" . $this->_webSiteUri . "/btn/fr_FR/payer-avec-cinetpay.png' onclick='javascript:document.forms['" . $formName . "'].submit()' title=\"Effectuer des paiement avec CinetPay - C'est rapide, gratuit et s&eacute;curis&eacute;!\" name='submit' type='image' />";
+            $btn = "<button class='cinetpay-button " . $size . "' onclick='javascript:document.forms['" . $formName . "'].submit()'> Payer avec CinetPay</button>";
         else
-            $btn = "<input $w $h src='" . $this->_webSiteUri . "/btn/fr_FR/acheter.png' onclick='javascript:document.forms['" . $formName . "'].submit()' title=\"Effectuer des paiement avec CinetPay - C'est rapide, gratuit et s&eacute;curis&eacute;!\" name='submit' type='image' />";
-
+            $btn = "<button class='cinetpay-button " . $size . "' onclick='javascript:document.forms['" . $formName . "'].submit()'> Payer </button>";
         return $btn;
     }
 

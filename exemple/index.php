@@ -46,11 +46,8 @@ try {
     // cinetpay button type, must be 1, 2, 3, 4 or 5
     $btnType = 2;
 
-    // button width
-    $btnWidth = "120px";
-
-    //button height
-    $btnHeight = "";
+    // button size, can be 'small' , 'large' or 'larger'
+    $btnSize = 'large';
 
     // create html form for your basket
     // you must save this information into your db before write this
@@ -64,7 +61,7 @@ try {
         ->setDebug(false)// put true, if you want to activate debug mode to see all informations you sent to CinetPay
         ->setReturnUrl($return_url)// optional
         ->setCancelUrl($cancel_url)// optional
-        ->displayPayButton($formName, $btnType, $btnWidth, $btnHeight);
+        ->displayPayButton($formName, $btnType, $btnSize);
 } catch (Exception $e) {
     throw new Exception($e);
 }
