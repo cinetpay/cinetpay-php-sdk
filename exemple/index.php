@@ -39,18 +39,14 @@ try {
     //version ,  use V1 if you want to use api v1
     $version = "V2";
 
-    //$CinetPay->setDebug(true);
     // name of your cinetpay form
     $formName = "nom_formulaire_exemple";
 
     // cinetpay button type, must be 1, 2, 3, 4 or 5
     $btnType = 2;
 
-    // button width
-    $btnWidth = "120px";
-
-    //button height
-    $btnHeight = "";
+    // button size, can be 'small' , 'large' or 'larger'
+    $btnSize = 'large';
 
     // create html form for your basket
     // you must save this information into your db before write this
@@ -60,11 +56,11 @@ try {
         ->setTransDate($date_transaction)
         ->setAmount($montant_a_payer)
         ->setCustom($identifiant_du_payeur)// optional
-        ->setNotifyUrl($notify_url)// optional
         ->setDebug(false)// put true, if you want to activate debug mode to see all informations you sent to CinetPay
+        ->setNotifyUrl($notify_url)// optional
         ->setReturnUrl($return_url)// optional
         ->setCancelUrl($cancel_url)// optional
-        ->displayPayButton($formName, $btnType, $btnWidth, $btnHeight);
+        ->displayPayButton($formName, $btnType, $btnSize);
 } catch (Exception $e) {
     throw new Exception($e);
 }
