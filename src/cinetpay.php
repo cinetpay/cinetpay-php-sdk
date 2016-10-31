@@ -12,7 +12,7 @@
  *
  * @category   CinetPay
  * @package    cinetpay
- * @version    1.6.1
+ * @version    1.6.2
  * @license    MIT
  */
 
@@ -336,7 +336,7 @@ class CinetPay
             $form .= "<input type='hidden' name='debug' value='1'>";
 
         $form .= $this->getOnlyPayButtonToSubmit($formName, $btnType, $size);
-
+        $form .= "</form>";
         return $form;
     }
 
@@ -472,7 +472,7 @@ class CinetPay
         elseif (!empty($formName) && $btnType == 4)
             $btn = "<button class='cinetpay-button " . $size . "' onclick='javascript:document.forms['" . $formName . "'].submit()'> Payer avec CinetPay</button>";
         else
-            $btn = "<button class='cinetpay-button " . $size . "' onclick='javascript:document.forms['" . $formName . "'].submit()'> Payer </button>";
+            $btn = "<button class='cinetpay-button " . $size . "' onclick='javascript:document.forms['" . $formName . "'].submit()'> Payer maintenant </button>";
         return $btn;
     }
 
