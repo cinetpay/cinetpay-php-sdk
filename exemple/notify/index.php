@@ -7,7 +7,7 @@ if (isset($_POST['cpm_trans_id'])) {
     require_once __DIR__ . '/../../src/cinetpay.php';
 
     // sample class for simulate payment validation
-    require_once __DIR__ . '/commande.php';
+    require_once __DIR__ . '/../commande.php';
 
     $commande = new Commande();
     try {
