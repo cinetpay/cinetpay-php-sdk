@@ -219,7 +219,7 @@ Exemple :
             //Veuillez entrer votre apiKey
             $apiKey = "39955468c7a8c0cef1.68322505";
             //Veuillez entrer votre siteId
-            $site_id = "485179";
+            $site_id = "124598";
             
             //platform ,  utiliser PROD si vous avez créé votre compte sur www.cinetpay.com  ou TEST si vous avez créé votre compte sur www.sandbox.cinetpay.com
             $plateform = "TEST";

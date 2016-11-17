@@ -19,7 +19,7 @@ if (isset($_POST['cpm_trans_id'])) {
         $id_transaction = $_POST['cpm_trans_id'];
         //Veuillez entrer votre apiKey et site ID
         $apiKey = "39955468c7a8c0cef1.68322505";
-        $site_id = "485179";
+        $site_id = "124598";
         $plateform = "TEST"; // Valorisé à PROD si vous êtes en production
         $version = "V2"; // Valorisé à V1 si vous voulez utiliser la version 1 de l'api
         $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
@@ -75,7 +75,7 @@ if (isset($_POST['cpm_trans_id'])) {
         $id_transaction = $_POST['cpm_trans_id'];
         //Veuillez entrer votre apiKey et site ID
         $apiKey = "39955468c7a8c0cef1.68322505";
-        $site_id = "485179";
+        $site_id = "124598";
         $plateform = "TEST"; // Valorisé à PROD si vous êtes en production
         $version = "V2"; // Valorisé à V1 si vous voulez utiliser la version 1 de l'api
         $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
@@ -149,7 +149,7 @@ A inserer dans le script de paiement :
             //Veuillez entrer votre apiKey
             $apiKey = "39955468c7a8c0cef1.68322505";
             //Veuillez entrer votre siteId
-            $site_id = "485179";
+            $site_id = "124598";
             
             //platform ,  utiliser PROD si vous avez créé votre compte sur www.cinetpay.com  ou TEST si vous avez créé votre compte sur www.sandbox.cinetpay.com
             $plateform = "TEST";
