@@ -168,9 +168,9 @@ A inserer dans le script de paiement :
             $btnSize = 'large'; // 'small' pour reduire la taille du bouton, 'large' pour une taille moyenne ou 'larger' pour  une taille plus grande 
     
             // Enregistrement de la commande dans notre BD
-            $commande->setTransId($id_transaction);
-            $commande->setMontant($montant_a_payer);
-            $commande->create();
+            //$commande->setTransId($id_transaction);
+            //$commande->setMontant($montant_a_payer);
+            //$commande->create();
             
             // Paramétrage du panier CinetPay et affichage du formulaire
             $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
