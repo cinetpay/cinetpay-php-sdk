@@ -1,12 +1,12 @@
-#CinetPay SDK PHP Integration
+# CinetPay SDK PHP Integration
 
 CinetPay SDK PHP Integration permet d'intégrer rapidement CinetPay à un site en ligne fait avec PHP.
 
 L'intégration de ce SDK se fait en deux etapes :
 
-##Etape 1 : Préparation des pages de notification, de retour et d'annulation
+## Etape 1 : Préparation des pages de notification, de retour et d'annulation
 
-###Page de Notification
+### Page de Notification
 Pour ceux qui possèdent des services qui ne neccessitent pas un traitement des notifications de paiement de CinetPay, vous pouvez passer directement à la phase suivante, par exemple les services de don.
 
 A chaque paiement, CinetPay vous notifie via un lien de notification.
@@ -102,7 +102,7 @@ if (isset($_POST['cpm_trans_id'])) {
 }
 ?>
 ```
-###Page de Retour
+### Page de Retour
 
 La page de retour est la page où est redirigée le client après une transaction sur CinetPay (quelque soit le statut de la transaction). Aucune mise à jour de la base de données ne doit être traité sur cette page
 
@@ -179,11 +179,11 @@ if (isset($_POST['cpm_trans_id'])) {
 ?>
 ```
 
-###Page d'Annulation
+### Page d'Annulation
 
 En depit de faire une page d'annulation, vous pouvez simplement utiliser votre page d'accueil
 
-##Etape 2 : Préparation et affichage du formulaire de paiement
+## Etape 2 : Préparation et affichage du formulaire de paiement
 
 Le formulaire de paiement CinetPay est constitué de :
 
@@ -260,10 +260,10 @@ Exemple :
         }
 ?>
 ```
-#Votre Api Key et Site ID
+# Votre Api Key et Site ID
 
 Ces informations sont disponibles dans votre BackOffice CinetPay.
 
-#Exemple Intégration
+# Exemple Intégration
 
 Vous trouverez un exemple d'intégration complet dans le dossier exemple/
