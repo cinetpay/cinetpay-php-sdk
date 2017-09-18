@@ -1,12 +1,12 @@
-#Exemple Simple d'intégration CinetPay
+# Exemple Simple d'intégration CinetPay
 
 On suppose que le nom de domaine du site est : www.mondomaine.ci
 
 Assurez vous toujours que la classe CinetPay est bien chargée
 
-##Etape 1 : Préparation des pages de notification, de retour et d'annulation
+## Etape 1 : Préparation des pages de notification, de retour et d'annulation
 
-###Page de Notification
+### Page de Notification
 Dans un fichier notify.php à la racine de votre site par exemple
 ```php
 <?php
@@ -18,10 +18,10 @@ if (isset($_POST['cpm_trans_id'])) {
         // Initialisation de CinetPay et Identification du paiement
         $id_transaction = $_POST['cpm_trans_id'];
         //Veuillez entrer votre apiKey et site ID
-        $apiKey = "39955468c7a8c0cef1.68322505";
-        $site_id = "124598";
-        $plateform = "TEST"; // Valorisé à PROD si vous êtes en production
-        $version = "V2"; // Valorisé à V1 si vous voulez utiliser la version 1 de l'api
+        $apiKey = "21585943f75164bbc2.38014639";
+        $site_id = "296911";
+        $plateform = "PROD";
+        $version = "V1";
         $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
         //Prise des données chez CinetPay correspondant à ce paiement
         $CinetPay->setTransId($id_transaction)->getPayStatus();
@@ -62,7 +62,7 @@ if (isset($_POST['cpm_trans_id'])) {
 }
 ?>
 ```
-###Page de Retour
+### Page de Retour
 Dans un fichier return.php à la racine de votre site par exemple
 ```php
 <?php
@@ -74,10 +74,10 @@ if (isset($_POST['cpm_trans_id'])) {
         // Initialisation de CinetPay et Identification du paiement
         $id_transaction = $_POST['cpm_trans_id'];
         //Veuillez entrer votre apiKey et site ID
-        $apiKey = "39955468c7a8c0cef1.68322505";
-        $site_id = "124598";
-        $plateform = "TEST"; // Valorisé à PROD si vous êtes en production
-        $version = "V2"; // Valorisé à V1 si vous voulez utiliser la version 1 de l'api
+        $apiKey = "21585943f75164bbc2.38014639";
+        $site_id = "296911";
+        $plateform = "PROD";
+        $version = "V1";
         $CinetPay = new CinetPay($site_id, $apiKey, $plateform, $version);
         $CinetPay->setTransId($id_transaction)->getPayStatus();
         $cpm_site_id = $CinetPay->_cpm_site_id;
@@ -122,7 +122,7 @@ if (isset($_POST['cpm_trans_id'])) {
 ?>
 ```
 
-###Page d'Annulation
+### Page d'Annulation
 Dans un fichier cancel.php à la racine de votre site par exemple
 ```php
 <?php
@@ -131,7 +131,7 @@ Dans un fichier cancel.php à la racine de votre site par exemple
 ?>
 ```
 
-##Etape 2 : Préparation et affichage du formulaire de paiement
+## Etape 2 : Préparation et affichage du formulaire de paiement
 A inserer dans le script de paiement :
 ```php
 <?php
@@ -147,22 +147,22 @@ A inserer dans le script de paiement :
             $identifiant_du_payeur = 'payeur@domaine.ci';
             
             //Veuillez entrer votre apiKey
-            $apiKey = "39955468c7a8c0cef1.68322505";
+            $apiKey = "21585943f75164bbc2.38014639";
             //Veuillez entrer votre siteId
-            $site_id = "124598";
+            $site_id = "296911";
             
             //platform ,  utiliser PROD si vous avez créé votre compte sur www.cinetpay.com  ou TEST si vous avez créé votre compte sur www.sandbox.cinetpay.com
-            $plateform = "TEST";
+            $plateform = "PROD";
             
             //la version ,  utilisé V1 si vous voulez utiliser la version 1 de l'api
-            $version = "V2";
+            $version = "V1";
     
             // nom du formulaire CinetPay
             $formName = "goCinetPay";
             // Les liens CinetPay
-            $notify_url = 'www.mondomaine.ci/notify.php';
-            $return_url = 'www.mondomaine.ci/return.php';
-            $cancel_url = 'www.mondomaine.ci/cancel.php';
+            $notify_url = 'http://mondomaine.ci/notify.php';
+            $return_url = 'http://mondomaine.ci/return.php';
+            $cancel_url = 'http://mondomaine.ci/cancel.php';
             // Configuration du bouton
             $btnType = 2;//1-5
             $btnSize = 'large'; // 'small' pour reduire la taille du bouton, 'large' pour une taille moyenne ou 'larger' pour  une taille plus grande 
@@ -190,7 +190,7 @@ A inserer dans le script de paiement :
         }
 ?>
 ```
-#Exemple Intégration Production
+# Exemple Intégration Production
 
 Vous trouverez un exemple d'intégration en production dans :
 *    index.php : script de paiement
