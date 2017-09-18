@@ -12,7 +12,7 @@
  *
  * @category   CinetPay
  * @package    cinetpay
- * @version    1.6.2
+ * @version    1.7.0
  * @license    MIT
  */
 
@@ -177,8 +177,9 @@ class CinetPay
      * @param $apikey
      * @param string $mode
      * @param string $version
+     * @param array $params
      */
-    public function __construct($site_id, $apikey, $mode = "PROD", $version = 'v2')
+    public function __construct($site_id, $apikey, $mode = "PROD", $version = 'v2', $params = null)
     {
 
         if ($mode == "PROD") {
@@ -192,8 +193,10 @@ class CinetPay
         $this->_URI_GET_SIGNATURE_DEV = sprintf('api.sandbox.cinetpay.com/%s/?method=getSignatureByPost', strtolower($version));
         $this->_URI_CHECK_PAY_STATUS_PROD = sprintf('api.cinetpay.com/%s/?method=checkPayStatus', strtolower($version));
         $this->_URI_CHECK_PAY_STATUS_DEV = sprintf('api.sandbox.cinetpay.com/%s/?method=checkPayStatus', strtolower($version));
-        $style = '<style>.cinetpay-button { white-space: nowrap; }.cinetpay-button .field-error {  border: 1px solid #FF0000; }.cinetpay-button .hide { display: none; }.cinetpay-button .error-box { background: #FFFFFF; border: 1px solid #DADADA; border-radius: 5px; padding: 8px; display: inline-block; }.cinetpay-button button { white-space: nowrap; overflow: hidden; border-radius: 13px; font-family: "Arial", bold, italic; font-weight: bold; font-style: italic; border: 1px solid #2ECC71; color: #000000; background: #2ECC71; position: relative; text-shadow: 0 1px 0 rgba(255,255,255,.5); cursor: pointer; z-index: 0; }.cinetpay-button button:before { content: " "; position: absolute; width: 100%; height: 100%; border-radius: 11px; top: 0; left: 0; background: #2ECC71; background: -webkit-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: -moz-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: -ms-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); z-index: -2; }.cinetpay-button button:after { content: " "; position: absolute; width: 98%; height: 60%; border-radius: 40px 40px 38px 38px; top: 0; left: 0; background: -webkit-linear-gradient(top, #fefefe 0%, #28B463 100%); background: -moz-linear-gradient(top, #fefefe 0%, #28B463 100%); background: -ms-linear-gradient(top, #fefefe 0%, #28B463 100%); background: linear-gradient(top, #fefefe 0%, #28B463 100%); z-index: -1; -webkit-transform: translateX(1%);-moz-transform: translateX(1%); -ms-transform: translateX(1%); transform: translateX(1%); }.cinetpay-button button.small { padding: 3px 15px; font-size: 12px; }.cinetpay-button button.large { padding: 4px 19px; font-size: 14px; }.cinetpay-button button.larger { padding: 5px 30px; font-size: 20px; }</style>';
-        print($style);
+        if (is_null($params) || (!empty($params['style']) && $params['style'] == true)) {
+            $style = '<style>.cinetpay-button { white-space: nowrap; }.cinetpay-button .field-error {  border: 1px solid #FF0000; }.cinetpay-button .hide { display: none; }.cinetpay-button .error-box { background: #FFFFFF; border: 1px solid #DADADA; border-radius: 5px; padding: 8px; display: inline-block; }.cinetpay-button button { white-space: nowrap; overflow: hidden; border-radius: 13px; font-family: "Arial", bold, italic; font-weight: bold; font-style: italic; border: 1px solid #2ECC71; color: #000000; background: #2ECC71; position: relative; text-shadow: 0 1px 0 rgba(255,255,255,.5); cursor: pointer; z-index: 0; }.cinetpay-button button:before { content: " "; position: absolute; width: 100%; height: 100%; border-radius: 11px; top: 0; left: 0; background: #2ECC71; background: -webkit-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: -moz-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: -ms-linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); background: linear-gradient(top, #28B463 0%,#28B463 80%,#FFF8FC 100%); z-index: -2; }.cinetpay-button button:after { content: " "; position: absolute; width: 98%; height: 60%; border-radius: 40px 40px 38px 38px; top: 0; left: 0; background: -webkit-linear-gradient(top, #fefefe 0%, #28B463 100%); background: -moz-linear-gradient(top, #fefefe 0%, #28B463 100%); background: -ms-linear-gradient(top, #fefefe 0%, #28B463 100%); background: linear-gradient(top, #fefefe 0%, #28B463 100%); z-index: -1; -webkit-transform: translateX(1%);-moz-transform: translateX(1%); -ms-transform: translateX(1%); transform: translateX(1%); }.cinetpay-button button.small { padding: 3px 15px; font-size: 12px; }.cinetpay-button button.large { padding: 4px 19px; font-size: 14px; }.cinetpay-button button.larger { padding: 5px 30px; font-size: 20px; }</style>';
+            print($style);
+        }
         $this->_cfg_cpm_site_id = $site_id;
         $this->_cfg_cpm_version = strtoupper($version);
         $this->_cfg_apikey = $apikey;
@@ -386,7 +389,44 @@ class CinetPay
 
     private function callCinetpayWsMethod($params, $url, $method = 'POST')
     {
-        if (ini_get('allow_url_fopen')) {
+        if (function_exists('curl_version')) {
+            try {
+                $curl = curl_init();
+                if ($method == 'POST') {
+                    $postfield = '';
+                    foreach ($params as $index => $value) {
+                        $postfield .= $index . '=' . $value . "&";
+                    }
+                    $postfield = substr($postfield, 0, -1);
+                } else {
+                    $postfield = null;
+                }
+                curl_setopt_array($curl, array(
+                    CURLOPT_URL => $url,
+                    CURLOPT_RETURNTRANSFER => true,
+                    CURLOPT_ENCODING => "",
+                    CURLOPT_MAXREDIRS => 10,
+                    CURLOPT_TIMEOUT => 45,
+                    CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                    CURLOPT_CUSTOMREQUEST => $method,
+                    CURLOPT_POSTFIELDS => $postfield,
+                    CURLOPT_HTTPHEADER => array(
+                        "cache-control: no-cache",
+                        "content-type: application/x-www-form-urlencoded",
+                    ),
+                ));
+                $response = curl_exec($curl);
+                $err = curl_error($curl);
+                curl_close($curl);
+                if ($err) {
+                    throw new Exception("Error :" . $err);
+                } else {
+                    return $response;
+                }
+            } catch (Exception $e) {
+                throw new Exception($e);
+            }
+        } else if (ini_get('allow_url_fopen')) {
             try {
                 // Build Http query using params
                 $query = http_build_query($params);
@@ -411,44 +451,7 @@ class CinetPay
                 throw new Exception($e);
             }
         } else {
-            try {
-                $curl = curl_init();
-
-                settype($params, 'array');
-
-                $data = (count($params) > 0) ? $params : false;
-
-                $httpHeader = array();
-
-                switch ($method) {
-                    case 'POST':
-                        curl_setopt($curl, CURLOPT_POST, 1);
-                        if ($data) {
-                            curl_setopt($curl, CURLOPT_POSTFIELDS, $data);
-                            $httpHeader[] = 'Content-Length: ' . strlen($data);
-                        }
-                        break;
-                    case 'GET':
-                        break;
-                    case 'PUT':
-                        curl_setopt($curl, CURLOPT_PUT, 1);
-                        break;
-                    default:
-                }
-                curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
-                curl_setopt($curl, CURLOPT_URL, $url);
-                curl_setopt($curl, CURLOPT_HTTPHEADER, $httpHeader);
-                curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
-
-                $result = curl_exec($curl);
-                print_r(curl_error($curl));
-                curl_close($curl);
-
-                return $result;
-
-            } catch (Exception $e) {
-                throw new Exception($e);
-            }
+            throw new Exception("Vous devez activer curl ou allow_url_fopen pour utiliser CinetPay");
         }
     }
 
@@ -670,7 +673,7 @@ class CinetPay
      * @param string $cfg_cpm_version
      * @return $this
      */
-    public function setVersion(string $cfg_cpm_version)
+    public function setVersion($cfg_cpm_version)
     {
         $this->_cfg_cpm_version = $cfg_cpm_version;
         return $this;
