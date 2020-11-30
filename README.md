@@ -211,8 +211,9 @@ Exemple :
             $description_du_paiement = "Mon produit de ref: $id_transaction";
             $date_transaction = date("Y-m-d H:i:s");
             // Montant minimun est de 5 francs sur CinetPay
-            $montant_a_payer = mt_rand(5, 100);
-            
+            $montant_a_payer = mt_rand(100, 200);
+            // Devise
+            $devise = 'XOF';
             // Mettez ici une information qui vous permettra d'identifier de façon unique le payeur
             $identifiant_du_payeur = 'payeur@domaine.ci';
             
@@ -248,6 +249,7 @@ Exemple :
                     ->setDesignation($description_du_paiement)
                     ->setTransDate($date_transaction)
                     ->setAmount($montant_a_payer)
+                    ->setCurrency($devise)
                     ->setDebug(false) // Valorisé à true, si vous voulez activer le mode debug sur cinetpay afin d'afficher toutes les variables envoyées chez CinetPay
                     ->setCustom($identifiant_du_payeur)// optional
                     ->setNotifyUrl($notify_url)// optional
