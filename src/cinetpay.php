@@ -12,7 +12,7 @@
  *
  * @category   CinetPay
  * @package    cinetpay
- * @version    1.7.0
+ * @version    1.9.2
  * @license    MIT
  */
 
@@ -53,7 +53,7 @@ class CinetPay
      * An identifier
      * @var string
      */
-    public $_cfg_cpm_currency = "CFA";
+    public $_cfg_cpm_currency = "XOF";
     /**
      * An identifier
      * @var string
@@ -716,6 +716,16 @@ class CinetPay
     public function setDesignation($designation)
     {
         $this->_cfg_cpm_designation = $designation;
+        return $this;
+    }
+
+    /**
+     * @param $currency
+     * @return $this
+     */
+    public function setCurrency($currency)
+    {
+        $this->_cfg_cpm_currency = $currency;
         return $this;
     }
 
